@@ -7,23 +7,24 @@ void loop()
 {
 	// put your main code here, to run repeatedly:
 
-	delay (200);
+	//delay (200);
 
 	int i = 0;
-	for(i=0;i<20;i++)
+	for(i=0;i<256;i++)
 	{
-		transmit(8*10);
-		delay(100);
+		transmit_byte(i);
+		//delay(100);
 	}
 	delay(1000);
 }
 
-void transmit_cycles(int cycles)
+void transmit_cycles(int cycles, bool send_signal)
 {
+  int i=0;
 	//send the cycles
 	for(i=0;i<cycles;i++)
 	{
-		digitalWrite(13, HIGH);
+    if(send_signal)digitalWrite(13, HIGH);
 		delayMicroseconds(13);
 		digitalWrite(13, LOW);
 		delayMicroseconds(13);
@@ -37,13 +38,13 @@ void transmit_cycles(int cycles)
 
 void transmit_byte(unsigned char data)//little endian transmission of a byte 
 {
-	const int CYCLES_MULTIPLE = 23
+	const int CYCLES_MULTIPLE = 23;
 	const int CYCLES_HEADER = CYCLES_MULTIPLE*4;
 	const int CYCLES_TRUE = CYCLES_MULTIPLE*2;
-	const int CYBLES_FALSE = CYCLES_MULTIPLE;
+	const int CYCLES_FALSE = CYCLES_MULTIPLE;
 	int i=0;
 
-	transmit_cycles(CYCLES_HEADER);
+	transmit_cycles(CYCLES_HEADER, true);
 
 	int j=0;
 	for(;j<8;j++)
@@ -53,15 +54,14 @@ void transmit_byte(unsigned char data)//little endian transmission of a byte
 
 		if(myBit)
 		{
-			transmit_cycles(CYCLES_TRUE);
+			transmit_cycles(CYCLES_TRUE, true);
 		}
 		else
 		{
-			transmit_cycles(CYCLES_FALSE);
+			transmit_cycles(CYCLES_FALSE, true);
 		}
 	}
 	
-	//TODO: footer/conclusive signal
-	
+	transmit_cycles(CYCLES_HEADER, false);
 }
 
