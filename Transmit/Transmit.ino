@@ -7,27 +7,10 @@ void loop()
 {
 	// put your main code here, to run repeatedly:
 
-	//delay (200);
-
-//  const int CYCLES_MULTIPLE = 23;
-//  const int CYCLES_TRUE = CYCLES_MULTIPLE*2;
-//  const int CYCLES_FALSE = CYCLES_MULTIPLE;
-//
-//
-//while (true)
-//{
-//  
-//      transmit_cycles(CYCLES_TRUE, true);
-//
-//      transmit_cycles(CYCLES_FALSE, true);
-//      delay(1000);
-//      
-//}
 	int i = 0;
 	for(i=0;i<256;i++)
 	{
-		transmit_byte('V');
-		delay(100);
+		transmit_byte(i);
 	}
 	delay(1000);
 }
@@ -63,7 +46,12 @@ void transmit_byte(unsigned char data)//little endian transmission of a byte
 	int j=0;
 	for(;j<8;j++)
 	{
-		if((unsigned char)data<<j>>7)
+	  //int mybit = data<<j>>7;//doesn't work
+
+    int mybit = data%2;
+    data = data/2;
+    
+		if(mybit)
 		{
 			transmit_cycles(CYCLES_TRUE, true);
 		}
@@ -74,5 +62,7 @@ void transmit_byte(unsigned char data)//little endian transmission of a byte
 	}
 	
 	transmit_cycles(CYCLES_HEADER, false);
+
+  delay(5);
 }
 
