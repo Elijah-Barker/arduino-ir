@@ -9,11 +9,25 @@ void loop()
 
 	//delay (200);
 
+//  const int CYCLES_MULTIPLE = 23;
+//  const int CYCLES_TRUE = CYCLES_MULTIPLE*2;
+//  const int CYCLES_FALSE = CYCLES_MULTIPLE;
+//
+//
+//while (true)
+//{
+//  
+//      transmit_cycles(CYCLES_TRUE, true);
+//
+//      transmit_cycles(CYCLES_FALSE, true);
+//      delay(1000);
+//      
+//}
 	int i = 0;
 	for(i=0;i<256;i++)
 	{
-		transmit_byte(i);
-		//delay(100);
+		transmit_byte('V');
+		delay(100);
 	}
 	delay(1000);
 }
@@ -49,10 +63,7 @@ void transmit_byte(unsigned char data)//little endian transmission of a byte
 	int j=0;
 	for(;j<8;j++)
 	{
-		int myBit = data%2;
-		data /= 2;
-
-		if(myBit)
+		if((unsigned char)data<<j>>7)
 		{
 			transmit_cycles(CYCLES_TRUE, true);
 		}
