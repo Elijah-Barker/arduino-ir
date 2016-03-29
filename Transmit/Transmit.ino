@@ -1,16 +1,30 @@
+#include <Servo.h>
+#define SERVO_PIN 3
+Servo aimservo;
 void setup() {
 	// initialize digital pin 13 as an output.
 	pinMode(13, OUTPUT);
+	aimservo.attach(SERVO_PIN);
+
+}
+void aim(int v){
+	static int cv=0;
+	if(v>cv)
+		cv+=1;
+	else if(v<cv)
+		cv-=1;
+	aimservo.write(cv);
 }
 
 void loop()
 {
 	// put your main code here, to run repeatedly:
-
 	int i = 0;
 	for(i=0;i<256;i++)
 	{
+		aim(i);
 		transmit_byte(i);
+		delay(100);
 	}
 	delay(1000);
 }
