@@ -42,8 +42,9 @@ void loop()
 			tx_ec(i);
 			delay(25);
 		}*/
-		for(i=255;i>0;i=i-10){
-			analogWrite(POWER_PIN,i);
+		for(i=110;i>60;i=i-1){
+			analogWrite(POWER_PIN,255-i);
+			//170 is about 2 feet and the lower the value is the farther it reaches (This is due to the properties of the transistor led driver hardware and can be chagned by changing the hardware)
 			tx_ec(i);
 			delay(25);
 		}
