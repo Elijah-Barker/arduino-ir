@@ -1,10 +1,12 @@
 #include <Servo.h>
 #define SERVO_PIN 3
 Servo aimservo;
+#define POWER_PIN 6
 void tx_ec(int m);
 void setup() {
 	// initialize digital pin 13 as an output.
 	pinMode(13, OUTPUT);
+	pinMode(POWER_PIN,OUTPUT);
 	aimservo.attach(SERVO_PIN);
 
 }
@@ -30,13 +32,18 @@ void loop()
 		delay(100);
 	}*/
 	while(1){
-		for(i=min;i<max;i++){
+		/*for(i=min;i<max;i++){
 			aim(i);
 			tx_ec(i);
 			delay(25);
 		}
 		for(i=max;i>min;i--){
 			aim(i);
+			tx_ec(i);
+			delay(25);
+		}*/
+		for(i=255;i>0;i=i-10){
+			analogWrite(POWER_PIN,i);
 			tx_ec(i);
 			delay(25);
 		}

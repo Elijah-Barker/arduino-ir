@@ -18,7 +18,9 @@ void loop()
 {
 	// put your main code here, to run repeatedly:
 	//Serial.println(recive_byte());
-	Serial.println(rx_ec());
+	int a=rx_ec();
+	if(a>1)
+		Serial.println(a);
 	//delay (200);
 
 
